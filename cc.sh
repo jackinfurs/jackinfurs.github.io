@@ -15,6 +15,7 @@ cat <<EOF
  ${dim}│${reset}        ${bold}email:${reset}             jackinfurs${dim}@gmail.com        │
  ${dim}│${reset}        ${bold}web:${reset}               jackinfurs${dim}.github.io        │
  ${dim}│${reset}        ${bold}github:${reset}           ${dim}github.com/${reset}jackinfurs        ${dim}│
+ ${dim}│${reset}        ${bold}codeberg:${reset}       ${dim}codeberg.org/${reset}jackinfurs        ${dim}│
  ${dim}│${reset}        ${bold}linkedin:${reset}    ${dim}linkedin.com/in/${reset}jackinfurs        ${dim}│
  ${dim}│                                                       │
  ${dim}│${reset}        ${bold}card:${reset}  ${yellow}curl -sL jackinfurs.github.io/cc${reset}        ${dim}│

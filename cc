@@ -7,6 +7,7 @@
  [2m│(B[m        [1memail:(B[m             jackinfurs[2m@gmail.com        │
  [2m│(B[m        [1mweb:(B[m               jackinfurs[2m.github.io        │
  [2m│(B[m        [1mgithub:(B[m           [2mgithub.com/(B[mjackinfurs        [2m│
+ [2m│(B[m        [1mcodeberg:(B[m       [2mcodeberg.org/(B[mjackinfurs        [2m│
  [2m│(B[m        [1mlinkedin:(B[m    [2mlinkedin.com/in/(B[mjackinfurs        [2m│
  [2m│                                                       │
  [2m│(B[m        [1mcard:(B[m  [33mcurl -sL jackinfurs.github.io/cc(B[m        [2m│

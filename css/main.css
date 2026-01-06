@@ -1,0 +1,42 @@
+* {
+	background: #100f0f;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+a:link		{ color: white; }
+a:visited	{ color: gray; }
+a:hover		{ color: lightgray; }
+a:active	{ color: white; }
+
+html, body { height: 100%; margin: 0; }
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: "Courier New", Courier, monospace;
+	color: white;
+}
+#content {
+	max-width: 768px; 
+	margin: 0 auto;
+	padding: 0 16px; 
+}
+#header { text-align: center; }
+footer  { color: gray; margin-top: 16px; text-align: center; }
+nav { 
+	align-items: center;  
+	display: flex; 
+	justify-content: space-around; 
+	margin: 0 auto 32px; 
+	max-width: 768px; 
+	text-align: center;
+}
+
+code, h1, h2, p { text-align: justify; text-justify: inter-word; }
+code	{ color: gray; }
+h2		{ margin: 32px 0px 8px auto; }
+p		{ margin: 4px 32px 16px 32px; }
+
+::-webkit-scrollbar { background-color: transparent; width: 0; }
+

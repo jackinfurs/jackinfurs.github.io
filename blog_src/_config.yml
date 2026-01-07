@@ -1,0 +1,6 @@
+title: jackinfurs/blog
+url: "https://jackinfurs.ie"
+baseurl: "/blog"
+markdown: kramdown
+destination: ../blog/
+

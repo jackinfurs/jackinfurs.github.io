@@ -1,0 +1,13 @@
+---
+layout: default
+---
+
+<h2>Posts</h2>
+<ul>
+	{% for post in site.posts %}
+		<li>
+			<a href="{{ site.baseurl }}{{ post.url }}" target="_self">{{ post.title }}</a> — {{ post.date | date: "%b %-d, %Y" }}
+		</li>
+	{% endfor %}
+</ul>
+

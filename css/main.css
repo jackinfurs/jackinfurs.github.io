@@ -11,7 +11,7 @@ a:active	{ color: white; }
 
 body {
 	background: #100f0f;
-	color: white;
+	color: lightgray;
 	font-family: "Courier New", Courier, monospace;
 }
 #content {
@@ -40,5 +40,5 @@ nav {
 code, h1, h2, p { text-align: justify; text-justify: inter-word; }
 code	{ color: gray; }
 h2		{ margin: 1em 0 0.75rem; }
-p		{ margin: 0 2em 1em 2em; }
+p		{ line-height: 1.25em; margin: 0 2em 1em 2em; }
 

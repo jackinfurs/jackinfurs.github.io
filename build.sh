@@ -3,5 +3,5 @@
 cd blog_src
 bundle exec jekyll clean && bundle exec jekyll build
 cd ..
-python3 -m http.server 8002
+python3 -m http.server
 

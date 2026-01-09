@@ -58,7 +58,25 @@
 		</nav>
 
 		<main>
-			<!-- TODO use spotify api to show title + link to song last listened to -->
+			<h2>Music</h2>
+
+			<p id="lastfm">
+				According to my <a href="https://last.fm/user/jackinfurs">last.fm</a>, the last song I listened to is
+			</p>
+			<script>
+				fetch("https://lastfm-proxy.jackinfurs.workers.dev")
+				  .then(r => r.json())
+				  .then(t => {
+					  const txt = `${t.artist}'s ${t.title}.`;
+					  document.getElementById("lastfm")
+						  .innerHTML += `<a href="${t.url}">${txt}</a>`;
+				  })
+				  .catch(() => {
+				    document.getElementById("lastfm").textContent +=
+				      "unfortunately unable to be retrieved. :/";
+				  });
+			</script>
+
 			<p>
 				I am currently working to make this page functional.
 			</p>

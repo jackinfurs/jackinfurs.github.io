@@ -19,6 +19,7 @@ body {
 	background: #100f0f;
 	color: lightgray;
 	font-family: "Courier New", Courier, monospace;
+	font-size: 0.85rem;
 }
 #content {
 	margin: 0 auto;

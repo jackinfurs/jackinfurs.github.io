@@ -3,4 +3,5 @@ url: "https://jackinfurs.ie"
 baseurl: "/blog"
 markdown: kramdown
 destination: ../blog/
+permalink: /:title/
 

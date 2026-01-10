@@ -9,6 +9,12 @@ a:visited	{ color: gray; }
 a:hover		{ color: lightgray; }
 a:active	{ color: white; }
 
+img {
+	display: block;
+	margin: auto;
+	width: 50%;
+}
+
 body {
 	background: #100f0f;
 	color: lightgray;

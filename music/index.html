@@ -62,7 +62,7 @@
 			<h2>Music</h2>
 
 			<p id="lastfm">
-				According to my <a href="https://last.fm/user/jackinfurs">last.fm</a>, the last song I listened to is
+				According to my <a href="https://last.fm/user/jackinfurs">last.fm</a>, the last song I listened to was
 			</p>
 			<script>
 				fetch("https://lastfm-proxy.jackinfurs.workers.dev")
@@ -74,7 +74,7 @@
 				  })
 				  .catch(() => {
 				    document.getElementById("lastfm").textContent +=
-				      "unfortunately unable to be retrieved. :/";
+				      "unfortunately unable to be retrieved. You can try refreshing to see if it'll help. :/";
 				  });
 			</script>
 

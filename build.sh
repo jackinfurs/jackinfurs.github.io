@@ -67,8 +67,28 @@ find . -type f \( -iname "*.html" -o -iname "*.md" \) | while read -r file; do
         "$file"
 done
 
+echo "generating assets/music/playlist.json..."
+PLAYLIST="assets/music/playlist.json"
+{
+    echo "["
+    FIRST=1
+    while IFS= read -r -d '' opus; do
+        if [[ "$opus" =~ \.opus$ ]]; then
+            if [ $FIRST -eq 1 ]; then 
+                FIRST=0
+            else
+                echo ","
+            fi
+            
+            echo "  {\"src\": \"$(basename "$opus")\"}"
+        fi
+    done < <(find "assets/music" -maxdepth 1 -type f -name "*.opus" -print0 2>/dev/null)
+    echo "]"
+} > "$PLAYLIST"
+
 cd blog_src
 bundle exec jekyll clean && bundle exec jekyll build
 cd ..
 
 python3 -m http.server
+

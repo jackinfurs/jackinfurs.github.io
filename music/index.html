@@ -7,6 +7,7 @@
 <head>
     <title>jackinfurs/music</title>
 	<script src="/assets/js/links.js" defer></script>
+    <script src="/assets/js/player.js" defer></script>
 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -78,18 +79,17 @@
 				  });
 			</script>
 
-			<p>
-				I am currently working to make this page functional.
+            <p>
+                You can listen to a few bits of music that I've made below.<br/>
+                <b>||</b> and <b>></b> to pause/play, and <b>+</b> to listen to another track.
+            </p>
+
+			<p class="player">
+                <span id="playPauseBtn">></span>
+                <span id="trackName"></span>
+                <span id="nextBtn">+</span>
 			</p>
-			<p>
-				In the meantime however, you can listen to the one track I can make available for you below.
-			</p>
-			<figure>
-				<audio controls style="display: block; margin: 0 auto; width: 50%;">
-					<source src="/assets/music/ilmp.opus" type="audio/mpeg"/>
-					I'd have loven to let you listen to some music, but it seems your browser won't let me.
-				</audio>
-			</figure>
+            <audio id="audio"></audio>
 		</main>
 
 		<footer>

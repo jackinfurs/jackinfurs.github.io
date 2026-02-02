@@ -63,19 +63,23 @@
 			<h2>Music</h2>
 
 			<p id="lastfm">
-				According to my <a href="https://last.fm/user/jackinfurs">last.fm</a>, the last song I listened to was
+				According to my <a href="https://last.fm/user/jackinfurs">last.fm</a>, 
 			</p>
 			<script>
 				fetch("https://lastfm-proxy.jackinfurs.workers.dev")
 				  .then(r => r.json())
 				  .then(t => {
 					  const txt = `${t.artist}'s ${t.title}.`;
-					  document.getElementById("lastfm")
-						  .innerHTML += `<a href="${t.url}" target="_blank" rel="noopener">${txt}</a>`;
+                      t.nowPlaying ? 
+                          document.getElementById("lastfm")
+						    .innerHTML += `I am currently listening to <a href="${t.url}" target="_blank" rel="noopener">${txt}</a>`
+                      :
+                          document.getElementById("lastfm")
+						    .innerHTML += `the last song I listened to was <a href="${t.url}" target="_blank" rel="noopener">${txt}</a>`;
 				  })
 				  .catch(() => {
 				    document.getElementById("lastfm").textContent +=
-				      "unfortunately unable to be retrieved. You can try refreshing to see if it'll help. :/";
+				      "nevermind. Unfortunately my profile was unable to be retrieved :/ You can try refreshing to see if it'll help.";
 				  });
 			</script>
 

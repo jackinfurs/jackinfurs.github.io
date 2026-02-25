@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en-ie">
+
+<!-- made with the hands of a human. 
+          https://notbyai.fyi/      -->
+
+<head>
+	<title>rss</title>
+	<script src="/assets/js/links.js" defer></script>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="description" content="The blog of the personal website of Jack Dunne (jackinfurs); final year BSc. Computer Science at University College Dublin."/>
+	<meta name="keywords" content="jackinfurs, Jack Dunne, blog"/>
+	<meta name="robots" content="index, follow"/>
+    <meta name="color-scheme" content="light"/>
+    <meta name="darkreader-lock"/>
+
+	<link rel="icon" href="/favicon.ico"/>
+	<link rel="canonical" href="https://jackinfurs.ie/blog"/>
+	<link rel="preload stylesheet" as="style" type="text/css" href="/css/main.css"/>
+    <link rel="alternate" type="application/rss+xml" title="jackinfurs/blog" href="/feed.xml"/>
+
+	<meta name="author" content="Jack Dunne (jackinfurs)"/>
+	<meta name="theme-color" content="#100f0f"/>
+
+	<meta property="og:site_name" content="jackinfurs"/>
+	<meta property="og:title" content="jackinfurs/blog"/>
+    <meta property="og:description" content="The blog of the personal website of Jack Dunne (jackinfurs); final year BSc. Computer Science at University College Dublin."/>
+	<meta property="og:image" content="https://jackinfurs.ie/assets/icons/icon.webp"/> <!-- TODO get something nicer for the cover image here -->
+	<meta property="og:image:alt" content="jackinfurs"/>
+    <meta property="og:url" content="https://jackinfurs.ie/blog"/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:locale" content="en_IE"/>
+
+	<meta name="twitter:title" content="jackinfurs/blog"/>
+	<meta name="twitter:description" content="The blog of the personal website of Jack Dunne (jackinfurs); final year BSc. Computer Science at University College Dublin."/>
+	<meta name="twitter:image" content="https://jackinfurs.ie/assets/icons/icon.webp"/> <!-- TODO get something nicer for the cover image here -->
+	<meta name="twitter:image:alt" content="jackinfurs"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:creator" content="jackinfurs"/>
+	<meta name="twitter:site" content="jackinfurs"/>
+	<meta name="twitter:url" content="https://jackinfurs.ie/blog"/>
+</head>
+
+<body>
+	<div id="content">
+		<header>
+			<h1 id="header">Jack Dunne</h1>
+		</header>
+
+		<nav>
+			<a href="https://www.codeberg.org/jackinfurs/" title="codeberg.org/jackinfurs"><img src="/assets/icons/codeberg.svg" style="width:30px; height:30px;" alt="jackinfurs on Codeberg"/></a>
+			<a href="https://www.github.com/jackinfurs/" title="github.com/jackinfurs"><img src="/assets/icons/github.svg" style="width:30px; height:30px;" alt="jackinfurs on GitHub"/></a>
+			<a href="https://www.linkedin.com/in/jackinfurs/" title="linkedin.com/in/jackinfurs"><img src="/assets/icons/linkedin.svg" style="width:30px; height:30px;" alt="jackinfurs on LinkedIn"/></a>
+			<wbr/>
+			<a href="/">home</a>
+			<a href="/music/">music</a>
+			<a href="/blog/"><strong>blog</strong></a>
+		</nav>
+
+		<main class="blog">
+			<h2 id="rss">rss</h2>
+
+<p>It’s three in the morning and I’m really meant to be asleep; I have an awful lot of collegework to be doing over the next few days. Instead, I’m blogging.</p>
+
+<p>In speaking of blogs, I received a very friendly email a few days ago from the author of one I’ve kept coming back to here-and-then, requesting for me to set up an RSS feed. So I finished up on an assignment and thought to do something light before drifting off. I’ve chosen as such to set up an RSS feed, for the very rare occasion that I end up posting something, much less something interesting. &gt;:)</p>
+
+<h2 id="needs--wants">Needs &amp; wants</h2>
+
+<p>I don’t actually use RSS, although now that I’ve interacted with it I can see the uses. Of course I’ve read &amp; heard about it from friends and from the occasional blog that I spend the evening reading, but I’d never considered setting one up for myself.</p>
+
+<p>While I <em>do</em> use Jekyll for generating static HTML from Markdown,<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> I still prefer to stay away from web frameworks whenever I can. As a result, I thought instead to integrate it into my build script.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>I’m not usually the biggest fan of Python, but since I use it to host my website locally prior to pushing changes, I thought to write something small:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
+
+<span class="n">URL</span><span class="p">,</span> <span class="n">SRC</span><span class="p">,</span> <span class="n">OUT</span> <span class="o">=</span> <span class="sh">"</span><span class="s">https://jackinfurs.ie</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">blog_src/_posts</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">feed.xml</span><span class="sh">"</span>
+<span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">listdir</span><span class="p">(</span><span class="n">SRC</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">'</span><span class="s">.md</span><span class="sh">'</span><span class="p">)],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="mi">15</span><span class="p">]:</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">.md</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">SRC</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="nf">read</span><span class="p">()</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">^date:\s*([\d-]+)</span><span class="sh">'</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">M</span><span class="p">).</span><span class="nf">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="sh">"</span><span class="s">-</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">slug</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">-</span><span class="sh">"</span><span class="p">)[</span><span class="mi">3</span><span class="p">:]).</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">-</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">)</span>
+    
+    <span class="n">date</span> <span class="o">=</span> <span class="n">dt</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="nf">strptime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="sh">"</span><span class="s">%Y-%m-%d</span><span class="sh">"</span><span class="p">).</span><span class="nf">strftime</span><span class="p">(</span><span class="sh">"</span><span class="s">%a, %d %b %Y 00:00:00 +0000</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">link</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">URL</span><span class="si">}</span><span class="s">/blog/</span><span class="si">{</span><span class="n">slug</span><span class="si">}</span><span class="s">/</span><span class="sh">"</span>
+    <span class="n">items</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">&lt;item&gt;&lt;title&gt;&lt;![CDATA[</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s">]]&gt;&lt;/title&gt;&lt;link&gt;</span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s">&lt;/link&gt;&lt;guid&gt;</span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s">&lt;/guid&gt;
+        &lt;pubDate&gt;</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s">&lt;/pubDate&gt;&lt;/item&gt;</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">OUT</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">&lt;?xml version=</span><span class="sh">"</span><span class="s">1.0</span><span class="sh">"</span><span class="s"> encoding=</span><span class="sh">"</span><span class="s">UTF-8</span><span class="sh">"</span><span class="s">?&gt;&lt;rss version=</span><span class="sh">"</span><span class="s">2.0</span><span class="sh">"</span><span class="s"> 
+        xmlns:atom=</span><span class="sh">"</span><span class="s">http://www.w3.org</span><span class="sh">"</span><span class="s">&gt;&lt;channel&gt;&lt;title&gt;jackinfurs/blog&lt;/title&gt;
+        &lt;link&gt;</span><span class="si">{</span><span class="n">URL</span><span class="si">}</span><span class="s">/blog&lt;/link&gt;&lt;description&gt;The blog of the personal website of 
+        Jack Dunne (jackinfurs); final year BSc. Computer Science at University 
+        College Dublin.&lt;/description&gt;&lt;atom:link href=</span><span class="sh">"</span><span class="si">{</span><span class="n">URL</span><span class="si">}</span><span class="s">/feed.xml</span><span class="sh">"</span><span class="s"> rel=</span><span class="sh">"</span><span class="s">self</span><span class="sh">"</span><span class="s"> 
+        type=</span><span class="sh">"</span><span class="s">application/rss+xml</span><span class="sh">"</span><span class="s"> /&gt;</span><span class="si">{</span><span class="sh">""</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s">&lt;/channel&gt;&lt;/rss&gt;</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The caveats with this mostly regard Markdown frontmatter (I don’t record the exact second I hit post!) and inline file handling (which warrants the nightmare regex mishmash above). Besides that, it’s very straightforward for each post: get the title from the Markdown source, get the publication date RSS-compliant, add it to the <code class="language-plaintext highlighter-rouge">feed.xml</code>.</p>
+
+<p>If you’re seeing this on RSS, wave hello!</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>…which is likely to change when I have the time; I’m sure there’s a more lightweight framework for this purpose. If not, it’s only an afternoon’s work to get it working with a website as simple as mine. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+		</main>
+
+		<footer>
+            <a href="/feed.xml" target="_blank">rss feed</a> - <span style="display: inline-block; transform: scaleX(-1);">&copy;</span> jackinfurs, 2026
+		</footer>
+	</div>
+</body>
+
+</html>
+

@@ -105,7 +105,7 @@ for f in sorted([f for f in os.listdir(SRC) if f.endswith('.md')], reverse=True)
         t = "-".join(slug.split("-")[3:]).replace("-", " ")
     
     date = dt.datetime.strptime(d, "%Y-%m-%d").strftime("%a, %d %b %Y 00:00:00 +0000")
-    link = f"{URL}/blog/{slug}/"
+    link = f"{URL}/blog/{t}/"
     items.append(f"<item><title><![CDATA[{t}]]></title><link>{link}</link><guid>{link}</guid><pubDate>{date}</pubDate></item>")
 
 with open(OUT, "w") as f:

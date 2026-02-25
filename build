@@ -90,5 +90,59 @@ cd blog_src
 bundle exec jekyll clean && bundle exec jekyll build
 cd ..
 
+echo "generating feed.xml..."
+python3 - <<EOF
+import os, datetime, re
+
+SITE_URL = "https://jackinfurs.ie"
+POSTS_DIR = "blog_src/_posts"
+OUTPUT = "feed.xml"
+
+rss_items = []
+
+files = [f for f in os.listdir(POSTS_DIR) if f.endswith('.md')]
+files.sort(reverse=True)
+
+for filename in files[:15]:
+    path = os.path.join(POSTS_DIR, filename)
+    
+    parts = filename.split("-")
+    date_str = "-".join(parts[:3])
+    slug = "-".join(parts[3:]).replace(".md", "")
+    
+    title = slug.replace("-", " ").title()
+    with open(path, 'r', encoding='utf-8') as f:
+        content = f.read()
+        match = re.search(r'^title:\s*["\']?(.*?)["\']?$', content, re.MULTILINE)
+        if match:
+            title = match.group(1)
+
+    date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    pub_date = date_obj.strftime("%a, %d %b %Y 00:00:00 +0000")
+    
+    link = f"{SITE_URL}/blog/{slug}/"
+
+    rss_items.append(f"""    <item>
+      <title><![CDATA[{title}]]></title>
+      <link>{link}</link>
+      <guid isPermaLink="true">{link}</guid>
+      <pubDate>{pub_date}</pubDate>
+    </item>""")
+
+rss_template = f"""<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org">
+  <channel>
+    <title>jackinfurs/blog</title>
+    <link>{SITE_URL}/blog</link>
+    <description>The blog of the personal website of Jack Dunne (jackinfurs); final year BSc. Computer Science at University College Dublin.</description>
+    <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
+{chr(10).join(rss_items)}
+  </channel>
+</rss>"""
+
+with open(OUTPUT, "w") as f:
+    f.write(rss_template)
+EOF
+
 python3 -m http.server
 
